@@ -1,0 +1,33 @@
+// SAMPLE CODE - why is better to use object-based approach when eiditing something in a state
+//
+// Array-based approach for reducer
+const streamReducer = (state=[], action) => {
+  switch(action.type) {
+    case 'EDIT_STREAM':
+      return state.map(stream => {
+        if(stream.id === action.payload.id) {
+          return action.payload;
+        } else {
+          return stream;
+        }
+      });
+    default:
+      return state;
+  }
+};
+
+// Object-based approach
+const streamReducer = (state={}, action) => {
+  switch(action.type) {
+    case 'EDIT_STREAM':
+      // This works fine but we can do it shorter
+      /* const newState = { ...state };
+      newState[action.payload.id] = action.payload;
+      return newState */
+
+      // Shorter version using key interpolation -> key interpolation: [action.payload.id]
+      return { ...state, [action.payload.id]: action.payload };
+    default:
+      return state;
+  }
+};
